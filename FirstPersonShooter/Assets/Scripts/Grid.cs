@@ -28,7 +28,7 @@ public class Grid : MonoBehaviour
 
     void Update()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, 1000) && Input.GetKeyDown(KeyCode.Mouse0))
