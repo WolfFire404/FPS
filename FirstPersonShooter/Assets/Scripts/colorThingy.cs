@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Color : MonoBehaviour
+public class colorThingy : MonoBehaviour
 {
     private bool alive = false;
 

@@ -7,6 +7,7 @@ public class Grid : MonoBehaviour
     public GameObject plane;
     public int width = 20;
     public int height = 20;
+	public float timer = 1;
 
     private Color[,] grid;
 
@@ -26,19 +27,31 @@ public class Grid : MonoBehaviour
         }
     }
 
+
+
+
     void Update()
     {
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 1000) && Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
+			Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+			RaycastHit hit;
+			Physics.Raycast(ray, out hit, 1000)
             Color c = hit.collider.GetComponent<Color>();
             c.SwitchColor();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-            Step();
+     //   if (Input.GetKeyDown(KeyCode.Space))
+      //      Step();
+
+		if (GlobalVariables.thisShitOn && timer <=0) {
+			timer = 1;
+			Step ();
+		
+		}
+
+		timer -= Time.deltaTime;
     }
 
 
