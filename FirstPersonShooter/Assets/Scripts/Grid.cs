@@ -9,6 +9,11 @@ public class Grid : MonoBehaviour
     public int height = 20;
 	public float timer = 1;
 
+    [HideInInspector]
+    public float targetX;
+    public float targetY;
+    public float targetZ;
+
     private colorThingy[,] grid;
 
     void Awake()
@@ -33,6 +38,7 @@ public class Grid : MonoBehaviour
     {
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         Physics.Raycast(ray, out hit, 1000);
+
     }
 
     void Update()
@@ -52,12 +58,16 @@ public class Grid : MonoBehaviour
             {
                 b.ToggleThisBitchUpNibba();
             }
+            targetX = Mathf.Ceil(hit.transform.position.x);
+            targetY = Mathf.Ceil(hit.transform.position.y);
+            targetZ = Mathf.Ceil(hit.transform.position.z);
+            StartCoroutine(Doquery());
         }
 
-     //   if (Input.GetKeyDown(KeyCode.Space))
-      //      Step();
+        //   if (Input.GetKeyDown(KeyCode.Space))
+        //      Step();
 
-		if (GlobalVariables.thisShitOn && timer <=0) {
+        if (GlobalVariables.thisShitOn && timer <=0) {
 			timer = 1;
 			Step ();
 		
@@ -117,6 +127,12 @@ public class Grid : MonoBehaviour
     }
     void Recoil()
     {
-        Camera.main.transform.localEulerAngles = new Vector3(0, 0, 0);
+         Camera.main.transform.localEulerAngles = 
+            new Vector3(Camera.main.transform.localEulerAngles.x-10, 0, 0);
+    }
+    IEnumerator Doquery()
+    {
+        WWW request = new WWW("http://20322.hosts.ma-cloud.nl/bewijzenmap/Periode4/Databases/BulletDataBase/Jezus.php?t_x=" + targetX + "&t_y=" + targetY + "&t_z"+ targetZ + "&p_id=1");
+        yield return request;
     }
 }
