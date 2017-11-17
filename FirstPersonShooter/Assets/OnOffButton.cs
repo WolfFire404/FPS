@@ -3,23 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public  class OnOffButton : MonoBehaviour
-{
+{ 
 
 
-
-	RaycastHit hit;
-
-	void Update ()
-	{
-
-
-		if (hit) {
-			ToggleThisBitchUpNibba ();
-		}
-	}
-
-
-	void ToggleThisBitchUpNibba ()
+	public void ToggleThisBitchUpNibba ()
 	{
 		
 

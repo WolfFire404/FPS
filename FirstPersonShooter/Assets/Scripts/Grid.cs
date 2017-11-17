@@ -9,11 +9,11 @@ public class Grid : MonoBehaviour
     public int height = 20;
 	public float timer = 1;
 
-    private Color[,] grid;
+    private colorThingy[,] grid;
 
     void Awake()
     {
-        grid = new Color[width, height];
+        grid = new colorThingy[width, height];
         for (int x = 0; x < width; x++)
         {
             for (int y = 0; y < height; y++)
@@ -22,24 +22,36 @@ public class Grid : MonoBehaviour
                 gridPlane.transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
                 gridPlane.transform.position = new Vector3(transform.position.x + x,
                     transform.position.y + y, transform.position.z);
-                grid[x, y] = gridPlane.GetComponent<Color>();
+                grid[x, y] = gridPlane.GetComponent<colorThingy>();
             }
         }
     }
 
+    RaycastHit hit;
 
-
+    void Shoot()
+    {
+        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+        Physics.Raycast(ray, out hit, 1000);
+    }
 
     void Update()
     {
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-			Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
-			RaycastHit hit;
-			Physics.Raycast(ray, out hit, 1000)
-            Color c = hit.collider.GetComponent<Color>();
-            c.SwitchColor();
+            Shoot();
+            Recoil();
+            colorThingy c = hit.collider.GetComponent<colorThingy>();
+            if (c)
+            {
+                c.SwitchColor();
+            }
+            OnOffButton b = hit.collider.GetComponent<OnOffButton>();
+            if (b)
+            {
+                b.ToggleThisBitchUpNibba();
+            }
         }
 
      //   if (Input.GetKeyDown(KeyCode.Space))
@@ -64,7 +76,7 @@ public class Grid : MonoBehaviour
             for (int y = 0; y < grid.GetLength(1); y++)
             {
                 int neighbors = GetNeighbors(x, y);
-                Color currentCell = grid[x, y];
+                colorThingy currentCell = grid[x, y];
                 if (currentCell.Alive && (neighbors < 2 || neighbors > 3)) states.Add(new int[] { x, y, 0 });
                 else if (!currentCell.Alive && neighbors == 3) states.Add(new int[] { x, y, 1 });
             }
@@ -97,10 +109,14 @@ public class Grid : MonoBehaviour
             if (ny >= height) ny = 0;
 
 
-            Color color = grid[nx, ny];
+            colorThingy color = grid[nx, ny];
             if (color.Alive) ++horse;
         }
 
         return horse;
+    }
+    void Recoil()
+    {
+        Camera.main.transform.localEulerAngles = new Vector3(0, 0, 0);
     }
 }

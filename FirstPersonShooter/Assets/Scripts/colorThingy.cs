@@ -15,7 +15,6 @@ public class colorThingy : MonoBehaviour
             GetComponent<Renderer>().material.color = alive ? UnityEngine.Color.red : UnityEngine.Color.white;
         }
     }
-    RaycastHit hit;
 
     public void SwitchColor()
     {
