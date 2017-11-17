@@ -128,7 +128,7 @@ public class Grid : MonoBehaviour
     void Recoil()
     {
          Camera.main.transform.localEulerAngles = 
-            new Vector3(Camera.main.transform.localEulerAngles.x-10, 0, 0);
+            new Vector3(Camera.main.transform.localEulerAngles.x -1.5f, 0, 0);
     }
     IEnumerator Doquery()
     {
